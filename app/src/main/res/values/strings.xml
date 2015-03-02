@@ -4,5 +4,6 @@
     <string name="app_name">HomeWorkDatabases</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="check_box_sh_pr">CheckBoxShPr</string>
 
 </resources>

@@ -1,19 +1,41 @@
 package com.lessons.android.homeworkdatabases;
 
-import android.support.v7.app.ActionBarActivity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.CheckBox;
 
 
 public class MainActivity extends ActionBarActivity {
 
-    @Override
+    /** Field for store a name of Preference file */
+    public static final String PREFS_NAME = "MyPrefsFile";
+
+    /** Field for store a name of String Preference */
+    private static final String PREFS_CB = "PREFS_CB";
+    /** Fields for store UI components */
+    private CheckBox cbCheck = null;
+
+     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //test
-    }
+         cbCheck = (CheckBox) findViewById(R.id.checkBoxShP);
+
+         // Restore preferences
+        SharedPreferences sPrefs = getSharedPreferences(PREFS_NAME, 0);
+     //   boolean silent = settings.getBoolean("silentMode", false);
+     //   setSilent(silent);
+         /* Checking a preference exists */
+         boolean prefEx = sPrefs.contains(PREFS_CB);
+          /* load boolean value */
+         boolean bolPref = sPrefs.getBoolean(PREFS_CB, false);
+         cbCheck.setChecked(bolPref);
+
+     }
 
 
     @Override
@@ -36,5 +58,20 @@ public class MainActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onStop(){
+        super.onStop();
+
+        // We need an Editor object to make preference changes.
+        // All objects are from android.context.Context
+        SharedPreferences sPrefs = getSharedPreferences(PREFS_NAME, 0);
+        SharedPreferences.Editor editor = sPrefs.edit();
+        /* Save boolean value */
+        boolean bolPref = cbCheck.isChecked();
+        editor.putBoolean(PREFS_CB, bolPref);
+        // Commit the edits!
+        editor.commit();
     }
 }
